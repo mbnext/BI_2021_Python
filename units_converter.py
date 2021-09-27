@@ -4,7 +4,9 @@
 # Например отсюда - https://www.axwap.com/kipia/docs/fizicheskie-velichiny/
 # Сложность конвертера и количество величин для конвертации на ваш вкус
 
-# собственно единицы измерения (пусть пока массы будут)
+# собственно единицы измерения (пусть пока массы будут - v1), "input_unit": {"output_unit1": coeff1 = input/output1,
+# "output_unit2": coeff2 = input/output2"}
+# v2 - добавила единицы энергии
 converter_dict = {"kg": {"kg": 1, "g": 1000, "mg": 1000000, "µg": 1000000000},
                   "g": {"g": 1, "kg": 0.001, "mg": 1000, "mcg": 1000000},
                   "mg": {"mg": 1, "kg": 0.000001, "g": 0.001, "mcg": 1000},
@@ -17,7 +19,14 @@ converter_dict = {"kg": {"kg": 1, "g": 1000, "mg": 1000000, "µg": 1000000000},
                   "pound": {"pound": 1, "g": 453.59237},
                   "ounce": {"ounce": 1, "g": 28.349523125},
                   "dram": {"dram": 1, "g": 1.7718451953125},
-                  "grain": {"grain": 1, "mg": 64.79891}}
+                  "grain": {"grain": 1, "mg": 64.79891},
+                  "J": {"J": 1, "kJ": 0.001, "MJ": 0.000001, "cal": 1 / 4.1868},
+                  "kJ": {"kJ": 1, "J": 1000, "MJ": 0.001},
+                  "MJ": {"MJ": 1, "kJ": 1000, "J": 1000000},
+                  "cal": {"cal": 1, "J": 4.1868, "kcal": 0.001, "Mcal": 0.000001},
+                  "kcal": {"kcal": 1, "cal": 1000, "Mcal": 0.001},
+                  "Mcal": {"Mcal": 1, "cal": 0.000001, "kcal": 0.001}}
+
 
 # проверка входных единиц измерения
 def input_units_checker(i_units):
@@ -28,6 +37,7 @@ def input_units_checker(i_units):
         check_res = False
     return check_res
 
+
 # проверка входного значения
 def input_value_checker(i_value):
     check_res = True
@@ -35,10 +45,11 @@ def input_value_checker(i_value):
         print('Введенное значение меньше 0, введите число, большее или равное 0')
         check_res = False
         # входное значение на тип не проверяем, т.к. там выпадает ошибка float, если что;
-        # а вот на отрицательность проверим (отрицательные бриллианты - это не то, что мы хотим)
+        # а вот на отрицательность проверим
     return check_res
 
-# проверка конечного значения (пока в комменте, если инпут_юнит неправильный, то рушится даже сам ввод аутпут_юнит, т.к. формату неоткуда взять
+
+# проверка конечного значения
 def output_units_checker(i_units, o_units):
     check_res = True
     if o_units not in converter_dict[i_units].keys():
@@ -47,23 +58,26 @@ def output_units_checker(i_units, o_units):
         check_res = False
     return check_res
 
+
 input_units = input(
     'Введите исходные единицы измерения из списка: {units}: '.format(units=', '.join(converter_dict.keys())))
 i_u_ch_res = input_units_checker(input_units)
+
 # сразу проверяем, есть ли такое значение в converter_dict, если нет, завершаемся
 if i_u_ch_res == False:
     raise SystemExit(1)
 
 input_value = float(input("Введите исходное значение (число): "))
 i_v_ch_res = input_value_checker(input_value)
+
 # сразу проверяем (в данном лсучае пока на положительность), если не проходим - завершаемся
 if i_v_ch_res == False:
     raise SystemExit(1)
 
 output_units = input('Введите конечные единицы измерения из списка: {units}: '
                      ''.format(units=', '.join(converter_dict[input_units].keys())))
-o_u_ch_res = output_units_checker(input_units,
-                                  output_units)
+o_u_ch_res = output_units_checker(input_units, output_units)
+
 # сразу проверяем, есть ли такое значение в converter_dict[input_units], если нет - завершаемся
 if o_u_ch_res == False:
     raise SystemExit(1)
