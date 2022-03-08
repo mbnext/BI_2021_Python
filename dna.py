@@ -1,3 +1,5 @@
+from rna import Rna
+
 class Dna:
     def __init__(self, sequence: str):
         self.sequence = sequence
@@ -46,7 +48,6 @@ class Dna:
         return hash(self.sequence)
 
     def transcribe(self):
-        from rna import Rna
         dna_transcription_dict = {'A': 'A', 'T': 'U', 'C': 'C', 'G': 'G',
                                   'a': 'a', 't': 'u', 'c': 'c', 'g': 'g'}
         transcribed_sequence = ''
