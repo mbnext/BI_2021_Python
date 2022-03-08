@@ -1,7 +1,10 @@
 class Rna:
-    def __init__(self, sequence: str) -> object:
+    def __init__(self, sequence: str):
         self.sequence = sequence
         self.i = 0
+        for letter in set(self.sequence):
+            if letter not in 'AUGCaugc':
+                raise NameError("Your sequence contains wrong letter " + letter)
 
     def __repr__(self):
         return self.sequence
@@ -21,8 +24,6 @@ class Rna:
         reverse_complement_sequence = ''
         reversed_seq = reversed(self.sequence)
         for letter in reversed_seq:
-            if letter not in rna_complement_dict.keys():
-                return NotImplemented
             reverse_complement_sequence += rna_complement_dict[letter]
         return reverse_complement_sequence
 

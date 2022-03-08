@@ -2,6 +2,9 @@ class Dna:
     def __init__(self, sequence: str):
         self.sequence = sequence
         self.i = 0
+        for letter in set(self.sequence):
+            if letter not in 'ATGCatgc':
+                raise NameError("Your sequence contains wrong letter " + letter)
 
     def __repr__(self):
         return self.sequence
@@ -21,8 +24,6 @@ class Dna:
         reverse_complement_sequence = ''
         reversed_seq = reversed(self.sequence)
         for letter in reversed_seq:
-            if letter not in dna_complement_dict.keys():
-                return NotImplemented
             reverse_complement_sequence += dna_complement_dict[letter]
         return reverse_complement_sequence
 
@@ -50,10 +51,6 @@ class Dna:
                                   'a': 'a', 't': 'u', 'c': 'c', 'g': 'g'}
         transcribed_sequence = ''
         for letter in self.sequence:
-            if letter not in dna_transcription_dict.keys():
-                return NotImplemented
             transcribed_sequence += dna_transcription_dict[letter]
         resulted_rna = Rna(transcribed_sequence)
         return resulted_rna
-
-
