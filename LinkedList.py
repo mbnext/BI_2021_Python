@@ -115,7 +115,7 @@ class LinkedList:
 
     # 4. Добавить поддержку удаления элементов, метод `pop` , который может опционально принимать индекс удаляемого элемента.
     def pop(self, index=None):
-        if index is None:
+        if index is None or index == self.__len - 1:
             current = self.__head
             item_to_pop = self.__tail
             # идем сначала до предпоследней позиции
@@ -275,6 +275,7 @@ class TestLinkedList(unittest.TestCase):
         self.assertEqual(self.linked_list.first(), 10, "After removing 1 we should find the last value of 10, but not 1")
         self.linked_list.remove_last_occurence(100)
         self.assertEqual(self.linked_list.__len__(), 4, "After the second removal the length should be 4")
+        self.assertEqual(self.linked_list.last(), 10, "After the second removal we should find the last value of 10, but not 100")
 
 
 # проверки все на свете
